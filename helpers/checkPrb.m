@@ -1,6 +1,5 @@
 function [prb] = checkPrb(prb)
-%CHECKPRB Summary of this function goes here
-%   Detailed explanation goes here
+%CHECKPRB will implement a check fo rthe inputs
 
 end
 

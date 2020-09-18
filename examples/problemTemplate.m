@@ -9,9 +9,9 @@ addpath ../
 
 prb.cnstr.dyn = myDynamicsFunc; % of the form [x_dot] = f(t,x,u)
 prb.cnstr.path = []; %myPathFunc; of the form [c,c_ceq] = g(t,x,u)
-prb.cnstr.bbound = []; %myBoundFunc; of the form [c,c_eq] = h(to,xo,tf,xf)
+prb.cnstr.bound = []; %myBoundFunc; of the form [c,c_eq] = h(to,xo,tf,xf)
 
-%Set initial guess
+%Set initial guess: all must have same size(,2)
 
 prb.guess.time = [0 150];  %some guess at end time
 prb.guess.state = [xo xf]; %linear guess from initial to final state
@@ -41,7 +41,7 @@ prb.bnd.uUpp = [10 10]';           %for all control upper bound
 %Requires one or both:  1)Path Objective   2)Boundary Objective
 
 prb.obj.path = []; %myPathObjective; 
-                                   % of the form w = j(t,x,u) where
+                                   % of the form w = w(t,x,u) where
                                    % w is some scalar cost 
                                    % integrated over the trajectory
 prb.obj.boundary = []; %myBoundaryObjective; 
