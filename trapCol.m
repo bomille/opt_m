@@ -15,13 +15,18 @@ fprintf('Performing Trapezoidal collocation with %d collocation points',prb.nPts
 prb.cnstr.weights = ones(prb.nPnts);
 prb.cnstr.weights(1,end) = .5;
 
-
 prb.cnstr.dynErr = @findDynErr;
 
 soln = dirCol(prb);
 
+%interpolate the control with linear splines
+soln.uFunc = @(t)(interp1(soln.t',soln.u',t')); %interp1 takes columns of arrays
+%interpolate the state with quadratic splines
+soln.xFunc = @(t)(quadSpline(soln.t,soln.x,t));
 
 end
+
+
 
 function [dynErr] = findDynErr(hk,x,f)
 %given the timestep, state, and dynamics, we can compute the equality
@@ -40,4 +45,16 @@ end
 
 
 
+function [xSoln] = quadSpline(solnTime,solnState,t)
 
+m = size(solnState,1); %number of states
+
+s = zeros(5,1);
+xSoln = zeros(m,t); %preallocate
+
+for i = 1:m                                     %for each state
+    s(i,1) = spapi(3,solnTime,solnState(i,:));  %construct quad spline
+    xSoln(i,:) = fnval(s(i),t);                 %and interp at t
+end
+
+end
