@@ -17,9 +17,11 @@ and all his help in learning about optimal control.
 
 
 Derivation of trapezoidal integration coefficients:
+
 First equation is from Ref 1
 ![Alt text](pics/trap_coeff.png?raw=true)
 
-Derivation of nonlinear equality constraint on dynamics
+Derivation of nonlinear equality constraint on dynamics:
+
 All but last equation is from Ref 1
 ![Alt text](pics/dyn.png?raw=true)
