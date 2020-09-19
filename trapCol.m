@@ -1,7 +1,6 @@
 function [soln] = trapCol(prb)
 %TRAPCOL Performs trapezoidal collocation 
 %   Detailed explanation goes here
-addpath('helpers')
 
 prb.m = size(prb.guess.state,1); %number of states
 prb.p = size(prb.guess.control,1); %number of controls
@@ -12,7 +11,7 @@ fprintf('Performing Trapezoidal collocation with %d collocation points',prb.nPts
 
 %set weights for trapezoidal quadrature over path objective
 %derived in README
-prb.obj.weights = ones(prb.nPnts);
+prb.obj.weights = ones(1,prb.nPts);
 prb.obj.weights(1,end) = .5;
 
 prb.cnstr.dynErr = @findDynErr;
@@ -48,12 +47,13 @@ end
 function [xSoln] = quadSpline(solnTime,solnState,t)
 
 m = size(solnState,1); %number of states
+n = size(solnState,2);
+sTime = linspace(solnTime(1),solnTime(2),n);
 
-s = zeros(5,1);
-xSoln = zeros(m,t); %preallocate
+xSoln = zeros(m,length(t)); %preallocate
 
 for i = 1:m                                     %for each state
-    s(i,1) = spapi(3,solnTime,solnState(i,:));  %construct quad spline
+    s(i,1) = spapi(3,sTime,solnState(i,:));  %construct quad spline
     xSoln(i,:) = fnval(s(i),t);                 %and interp at t
 end
 
